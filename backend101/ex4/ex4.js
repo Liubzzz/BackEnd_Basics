@@ -83,3 +83,37 @@ return new Promise((res, rej) => {
 // }
 
 // convertCsvToJson(filePath);
+
+// CU EXPRESS
+
+// const express = require("express");
+// const csvtojson = require("csvtojson");
+// const fs = require("fs").promises;
+
+// const app = express();
+// const csvFilePath = "ex4.csv";
+
+// function csvToJson(csvFilePath) {
+//   return csvtojson()
+//     .fromFile(csvFilePath)
+//     .then((json) => {
+//       return fs.writeFile("ex4.json", JSON.stringify(json)).then(() => {
+//         return json;
+//       });
+//     });
+// }
+
+// app.get("/", async (req, res) => {
+//   try {
+//     const json = await csvToJson(csvFilePath);
+//     console.log(json);
+//     res.send(json);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
+
+// app.listen(3000, () => {
+//   console.log("Server running on port 3000");
+// });
