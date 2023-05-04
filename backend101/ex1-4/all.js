@@ -7,7 +7,7 @@ const fs1 = require("fs").promises;
 const fisierCsv = "prob1.csv";
 const url = "https://datausa.io/api/data?drilldowns=Nation&measures=Population";
 
-const host = "localhost";
+const hostingAt = "localhost";
 const port = "3005";
 
 //rezolvare ex 1
@@ -35,7 +35,7 @@ const ex1 = () => {
 
 //rezolvare ex 2
 const server = http.createServer((req, res) => {
-  if (req.url === "/1") {
+  if (req.url === "/ex1") {
     ex1();
     fs.readFile("./ex1.json", "UTF-8", (err, json) => {
       if (err) {
@@ -51,7 +51,7 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  if (req.url === "/2") {
+  if (req.url === "/ex2") {
     fs.readFile("./ex2.html", "UTF-8", (err, html) => {
       if (err) {
         res.statusCode = 500;
@@ -66,7 +66,7 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  if (req.url === "/3") {
+  if (req.url === "/ex3") {
     ex3();
     fs.readFile("./ex3.json", "UTF-8", (err, json) => {
       if (err) {
@@ -82,7 +82,7 @@ const server = http.createServer((req, res) => {
     });
   }
 
-  if (req.url === "/4") {
+  if (req.url === "/ex4") {
     ex4();
     fs.readFile("./ex4.csv", "UTF-8", (err, text) => {
       if (err) {
@@ -99,8 +99,8 @@ const server = http.createServer((req, res) => {
   }
 });
 
-server.listen(port, host, () => {
-  console.log(`Server running at http://${host}:${port}/`);
+server.listen(port, hostingAt, () => {
+  console.log(`Server running at http://${hostingAt}:${port}/`);
 });
 
 //rezolvare ex3
@@ -124,7 +124,7 @@ const ex3 = () => {
     });
 };
 
-//prob4
+//rezolvare ex 4
 const ex4 = () => {
   const csvFilePath = "ex4.csv";
 
