@@ -5,6 +5,7 @@ const bookRoomApp = express();
 var cors = require("cors");
 const morgan = require("morgan")("tiny");
 const roomdb = require("./mockRooms.json");
+let movies = JSON.parse(fs.readFileSync("./mockRooms.json"));
 
 bookRoomApp.use(cors());
 bookRoomApp.use(morgan);
@@ -67,6 +68,34 @@ bookRoomApp.delete("/allRooms/:id", (req, res) => {
   res.set("Cache-Control", "no-cache");
   res.status(200).send("Success");
 });
+
+bookRoomApp.patch("/allRooms/:id", (req, res) => {
+  const roomId = req.params.id;
+  const room = roomdb.rooms.find((room) => room.id === roomId);
+  if (!room) {
+    res.status(404).send("Room not found");
+  } else {
+    const updatedFields = {};
+    if (req.body.title) {
+      updatedFields.title = req.body.title;
+    }
+    if (req.body.description) {
+      updatedFields.description = req.body.description;
+    }
+    if (req.body.capacity) {
+      updatedFields.capacity = req.body.capacity;
+    }
+    Object.assign(room, updatedFields);
+    fs.writeFile("mockRooms.json", JSON.stringify(roomdb), (err) => {
+      if (err) {
+        res.status(400).send({ err: err });
+      } else {
+        res.status(200).send("Successfully updated");
+      }
+    });
+  }
+});
+
 
 bookRoomApp.listen(3001, () =>
   console.log(`Server running at http://localhost:3001`)
