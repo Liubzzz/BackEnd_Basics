@@ -11,6 +11,8 @@ bookRoomApp.use(cors());
 bookRoomApp.use(morgan);
 bookRoomApp.use(express.json());
 
+//GET
+
 bookRoomApp.get("/meetingRoomData", (req, res) => {
   const data = require("./meetingRoomData.json");
   res.json(data.roomdata);
@@ -27,6 +29,8 @@ bookRoomApp.get("/allRooms/:id", (req, res) => {
   });
   res.status(200).send(data[0]);
 });
+
+//POST
 
 bookRoomApp.post("/allRooms", (req, res) => {
   const data = {
@@ -59,6 +63,8 @@ bookRoomApp.post("/allRooms", (req, res) => {
     res.status(400).send("Duplicate name error");
   }
 });
+
+//DELETE
 
 bookRoomApp.delete("/allRooms/:id", (req, res) => {
   const data = roomdb.rooms.filter((e) => {
@@ -99,6 +105,8 @@ bookRoomApp.patch("/allRooms/:id", (req, res) => {
     });
   }
 });
+
+//START SERVER
 
 bookRoomApp.listen(3001, () =>
   console.log(`Server running at http://localhost:3001`)
