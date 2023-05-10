@@ -71,8 +71,8 @@ bookRoomApp.delete("/allRooms/:id", (req, res) => {
 
 bookRoomApp.patch("/allRooms/:id", (req, res) => {
   const roomId = req.params.id;
-  const room = roomdb.rooms.find((room) => room.id === roomId);
-  if (!room) {
+  const roomIndex = roomdb.rooms.findIndex((room) => room.id === roomId);
+  if (roomIndex === -1) {
     res.status(404).send("Room not found");
   } else {
     const updatedFields = {};
@@ -85,7 +85,11 @@ bookRoomApp.patch("/allRooms/:id", (req, res) => {
     if (req.body.capacity) {
       updatedFields.capacity = req.body.capacity;
     }
-    Object.assign(room, updatedFields);
+    Object.assign(roomdb.rooms[roomIndex], updatedFields);
+    const sortedRooms = [...roomdb.rooms];
+    sortedRooms.splice(roomIndex, 1);
+    sortedRooms.unshift(roomdb.rooms[roomIndex]);
+    roomdb.rooms = sortedRooms;
     fs.writeFile("mockRooms.json", JSON.stringify(roomdb), (err) => {
       if (err) {
         res.status(400).send({ err: err });
@@ -95,7 +99,6 @@ bookRoomApp.patch("/allRooms/:id", (req, res) => {
     });
   }
 });
-
 
 bookRoomApp.listen(3001, () =>
   console.log(`Server running at http://localhost:3001`)
